@@ -1,2 +1,4 @@
+package campaign
+
 class Campaign {
 }
