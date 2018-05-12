@@ -31,7 +31,11 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'org.springframework.boot:spring-boot-starter-web'
+
+    compile 'org.mongodb.morphia:morphia:1.3.1' // MongoDB Java Manager
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.6.3' // MongoDB Java Driver
+
+    compile 'org.springframework.boot:spring-boot-starter-web' // Spring Boot
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

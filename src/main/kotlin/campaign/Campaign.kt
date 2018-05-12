@@ -1,4 +1,0 @@
-package campaign
-
-class Campaign {
-}
