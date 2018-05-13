@@ -6,23 +6,24 @@ import com.mongodb.MongoClientURI
 import org.bson.types.ObjectId
 import org.mongodb.morphia.Datastore
 import org.mongodb.morphia.Morphia
+import org.mongodb.morphia.query.Query
 
+//TODO: handle exceptions and wrong imputs
 class MongoDBManager {
 
-    val morphia: Morphia
-    val datastore: Datastore
+    private val datastore: Datastore
 
     init {
-        val uri = MongoClientURI("mongodb+srv://prodrom:prodrom@campaigns-service-qaapp.mongodb.net/")
-        val client = MongoClient(uri)
-
-        morphia = Morphia()
+        val client = MongoClient(MongoClientURI(
+                "mongodb+srv://prodrom:prodrom@campaigns-service-qaapp.mongodb.net/"))
+        val morphia = Morphia()
         morphia.mapPackage("campaign.models")
+
         datastore = morphia.createDatastore(client, "Volunteero")
-        datastore.ensureIndexes();
+        datastore.ensureIndexes()
     }
 
-    fun getById(id: String): Campaign = datastore.find(Campaign::class.java)
+    fun getById(id: String): Campaign? = datastore.find(Campaign::class.java)
             .field("id")
             .equal(ObjectId(id))
             .first()
@@ -32,13 +33,27 @@ class MongoDBManager {
             .equal(organizationId)
             .asList()
 
-    fun getAll():List<Campaign>  = datastore.find(Campaign::class.java).asList()
+    fun getAll(): List<Campaign> = datastore.find(Campaign::class.java).asList()
 
     fun add(campaign: Campaign) {
         datastore.save(campaign)
     }
 
-    fun updateInfluencePoints(influencePoints: Int) {
+    fun updateDescription(id: String, description: String) {
+        val updateOperations = datastore.createUpdateOperations(Campaign::class.java)
+                .set("description", description)
+
+        datastore.update(createQueryForRecord(id), updateOperations)
     }
 
+    fun updateInfluencePoints(id: String, influencePoints: Int) {
+        val updateOperations = datastore.createUpdateOperations(Campaign::class.java)
+                .inc("influencePoints", influencePoints)
+
+        datastore.update(createQueryForRecord(id), updateOperations)
+    }
+
+    private fun createQueryForRecord(id: String): Query<Campaign> = datastore.createQuery(Campaign::class.java)
+            .field("id")
+            .equal(ObjectId(id))
 }

@@ -9,5 +9,5 @@ class Campaign(var organizationId: String = "", var name: String = "",
                var description: String = "", var influencePoints: Int = 0) {
 
     @Id
-    var id: ObjectId? = null
+    var id: String? = null
 }
