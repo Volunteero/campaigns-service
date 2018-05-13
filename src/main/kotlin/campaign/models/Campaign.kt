@@ -9,3 +9,5 @@ class Campaign(var organizationId: String = "", var name: String = "",
     @Id
     var id: String? = null
 }
+
+

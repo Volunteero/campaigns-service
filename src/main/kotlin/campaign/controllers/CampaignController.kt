@@ -3,7 +3,6 @@ package campaign.controllers
 import campaign.database.MongoDBManager
 import campaign.models.Campaign
 import org.springframework.http.ResponseEntity
-import sun.rmi.runtime.Log
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -17,33 +16,46 @@ class CampaignController {
     }
 
     init {
-        databaseManager.getById("wow")
-        databaseManager.add(Campaign("111111", "Don Job", "Any job you need to be done", 10))
+        databaseManager.add(Campaign("1234", "Don Job", "NONE", 50))
     }
 
     @GetMapping("/")
     fun getAllCampaigns(): ResponseEntity<List<Campaign>> {
         val campaigns = databaseManager.getAll()
         return if (campaigns.isEmpty()) {
-            ResponseEntity<List<Campaign>>(HttpStatus.NO_CONTENT)
-        } else ResponseEntity<List<Campaign>>(campaigns, HttpStatus.OK)
+            ResponseEntity(HttpStatus.NO_CONTENT)
+        } else ResponseEntity(campaigns, HttpStatus.OK)
     }
 
     @GetMapping("/{id}")
     fun getCampaign(@PathVariable("id") id: String): ResponseEntity<Campaign> {
         val campaign = databaseManager.getById(id)
-        if (campaign == null) {
-            return ResponseEntity<Campaign>(HttpStatus.NOT_FOUND)
-        }
-        return ResponseEntity<Campaign>(campaign, HttpStatus.OK)
+        return ResponseEntity(campaign, HttpStatus.OK)
+    }
+
+    @GetMapping("/fromOrganization/{organizationId}")
+    fun getCampaignByOrganizationId(@PathVariable("organizationId") orgazationId: String): ResponseEntity<List<Campaign>> {
+        val campaign = databaseManager.getByOrganizationId(orgazationId)
+        return ResponseEntity(campaign, HttpStatus.OK)
     }
 
     @PostMapping("/")
     fun createCampaign(@RequestBody campaign: Campaign): ResponseEntity<Unit> {
         databaseManager.add(campaign)
-        return ResponseEntity<Unit>(HttpStatus.OK)
+        return ResponseEntity(HttpStatus.OK)
     }
 
-    //TODO: create POST
-    //TODO: update PATCH
+    @PatchMapping("/{id}/updateDescription")
+    fun updateDescription(@RequestBody description: String, @PathVariable("id") id: String):
+            ResponseEntity<Campaign> {
+        databaseManager.updateDescription(id, description)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    @PatchMapping("/{id}/updateInfluencePoints")
+    fun updateInfluencePoints(@RequestBody influencePoints: Int, @PathVariable("id") id: String):
+            ResponseEntity<Campaign> {
+        databaseManager.updateInfluencePoints(id, influencePoints)
+        return ResponseEntity(HttpStatus.OK)
+    }
 }

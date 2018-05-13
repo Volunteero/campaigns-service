@@ -8,14 +8,12 @@ import org.mongodb.morphia.Datastore
 import org.mongodb.morphia.Morphia
 import org.mongodb.morphia.query.Query
 
-//TODO: handle exceptions and wrong imputs
 class MongoDBManager {
 
     private val datastore: Datastore
 
     init {
-        val client = MongoClient(MongoClientURI(
-                "mongodb+srv://prodrom:prodrom@campaigns-service-qaapp.mongodb.net/"))
+        val client = MongoClient(MongoClientURI("mongodb+srv://prodrom:prodrom@campaigns-service-qaapp.mongodb.net/"))
         val morphia = Morphia()
         morphia.mapPackage("campaign.models")
 
@@ -23,7 +21,9 @@ class MongoDBManager {
         datastore.ensureIndexes()
     }
 
-    fun getById(id: String): Campaign? = datastore.find(Campaign::class.java)
+    fun getAll(): List<Campaign> = datastore.find(Campaign::class.java).asList()
+
+    fun getById(id: String): Campaign = datastore.find(Campaign::class.java)
             .field("id")
             .equal(ObjectId(id))
             .first()
@@ -32,8 +32,6 @@ class MongoDBManager {
             .field("organizationId")
             .equal(organizationId)
             .asList()
-
-    fun getAll(): List<Campaign> = datastore.find(Campaign::class.java).asList()
 
     fun add(campaign: Campaign) {
         datastore.save(campaign)
