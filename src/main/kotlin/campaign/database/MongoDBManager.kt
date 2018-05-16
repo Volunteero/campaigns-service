@@ -7,13 +7,23 @@ import org.bson.types.ObjectId
 import org.mongodb.morphia.Datastore
 import org.mongodb.morphia.Morphia
 import org.mongodb.morphia.query.Query
+import com.mongodb.MongoClientOptions
+
+
 
 class MongoDBManager {
 
     private val datastore: Datastore
 
     init {
+        val builder = MongoClientOptions.Builder();
+        builder.maxConnectionIdleTime(60000);
+
         val client = MongoClient(MongoClientURI("mongodb+srv://prodrom:prodrom@campaigns-service-qaapp.mongodb.net/"))
+        print("**********Logging***********")
+        print(client.address)
+        print(client)
+
         val morphia = Morphia()
         morphia.mapPackage("campaign.models")
 
