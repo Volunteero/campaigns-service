@@ -19,7 +19,8 @@ class MongoDBManager {
         val builder = MongoClientOptions.Builder();
         builder.maxConnectionIdleTime(60000);
 
-        val client = MongoClient(MongoClientURI("mongodb+srv://prodrom:prodrom@campaigns-service-qaapp.mongodb.net/"))
+        val client = MongoClient(MongoClientURI("mongodb+srv://prodrom:prodrom@campaigns-service-qaapp.mongodb.net/", builder))
+
         print("**********Logging***********")
         print(client.address)
         print(client)
