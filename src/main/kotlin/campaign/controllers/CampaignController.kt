@@ -16,7 +16,9 @@ class CampaignController {
     }
 
     init {
+        println("**********WE ARE HERE DICKIE 1")
         databaseManager.add(Campaign("1234", "Don Job", "NONE", 50))
+        println("**********WE ARE HERE DICKIE 3")
     }
 
     @GetMapping("/")

@@ -16,6 +16,7 @@ class MongoDBManager {
     private val datastore: Datastore
 
     init {
+        println("**********WE ARE HERE DICKIE 2")
         val builder = MongoClientOptions.Builder();
         builder.maxConnectionIdleTime(60000);
 
