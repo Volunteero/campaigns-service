@@ -6,19 +6,16 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
-
 @RestController
 @RequestMapping("/campaigns")
 class CampaignController {
 
-    final val databaseManager by lazy {
+    private final val databaseManager by lazy {
         MongoDBManager()
     }
 
     init {
-        println("**********WE ARE HERE DICKIE 1")
         databaseManager.add(Campaign("1234", "Don Job", "NONE", 50))
-        println("**********WE ARE HERE DICKIE 3")
     }
 
     @GetMapping("/")
