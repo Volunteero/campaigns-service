@@ -41,6 +41,8 @@ dependencies {
     // Spring Boot
     compile 'org.springframework.boot:spring-boot-starter-web'
 
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
+
     // Testing
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile group: 'junit', name: 'junit', version: '4.12'

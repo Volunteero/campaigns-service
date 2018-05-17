@@ -1,11 +1,13 @@
 package campaign.controllers
 
+import campaign.AuthorizationService
 import campaign.database.MongoDBManager
 import campaign.models.Campaign
 import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
+@CrossOrigin(origins = ["https://volunteero-campaigns.herokuapp.com/"])
 @RestController
 @RequestMapping("/campaigns")
 class CampaignController {
@@ -14,8 +16,11 @@ class CampaignController {
         MongoDBManager()
     }
 
+    final val authorization:AuthorizationService
+
     init {
         databaseManager.add(Campaign("1234", "Don Job", "NONE", 50))
+        authorization = AuthorizationService()
     }
 
     @GetMapping("/")
@@ -40,6 +45,7 @@ class CampaignController {
 
     @PostMapping("/")
     fun createCampaign(@RequestBody campaign: Campaign): ResponseEntity<Unit> {
+        //authorization.isUserAuthorizedOnResource()
         databaseManager.add(campaign)
         return ResponseEntity(HttpStatus.OK)
     }
