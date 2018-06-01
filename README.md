@@ -25,8 +25,8 @@ HTTP verb | Path | Description | Response | Parameter
  GET | /campaigns/ | get all the campaigns | {...{"id":"5af8b0d34f63a318f464647c","organizationId":"1234","name":"Don Job","description":"ertghjkiuytr","influencePoints":12395}...} | x
  GET | /campaigns/{id} | get a specific campaigns | {"id":"5af8b0d34f63a318f464647c","organizationId":"1234","name":"Don Job","description":"ertghjkiuytr","influencePoints":12395} | id
  GET | /campaigns/fromOrganization/{organizationId} | get all campaigns from a specific organization |  same data as the first GET but only for a specific organization | organizationId
- POST | /campagins/ | add a new campaigns | successful or not | BODY: "organizationId":"1234","name":"Don Job","description":"ertghjkiuytr","influencePoints":12395}
- PATCH |
+ POST | /campaigns/ | add a new campaigns | successful or not | BODY: "organizationId":"1234","name":"Don Job","description":"ertghjkiuytr","influencePoints":12395}
+ PATCH | /campa
  PATCH |
 
 ##Deployment
