@@ -16,11 +16,11 @@ class CampaignController {
         MongoDBManager()
     }
 
-    final val authorization:AuthorizationService
+    //final val authorization:AuthorizationService
 
     init {
         databaseManager.add(Campaign("1234", "Don Job", "NONE", 50))
-        authorization = AuthorizationService()
+        //authorization = AuthorizationService()
     }
 
     @GetMapping("/")
