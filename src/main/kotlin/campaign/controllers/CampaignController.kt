@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*
 class CampaignController {
 
     private final val databaseManager by lazy {
-        MongoDBManager()
+         MongoDBManager()
     }
 
     //final val authorization:AuthorizationService
 
     init {
-        databaseManager.add(Campaign("1234", "Don Job", "NONE", 50))
+        //databaseManager.add(Campaign("1234", "Don Job", "NONE", 50))
         //authorization = AuthorizationService()
     }
 
@@ -44,7 +44,7 @@ class CampaignController {
     }
 
     @PostMapping("/")
-    fun createCampaign(@RequestBody campaign: Campaign): ResponseEntity<Unit> {
+    fun createCampaign(@RequestBody campaign: Campaign, @RequestParam accessToken: String): ResponseEntity<Unit> {
         //authorization.isUserAuthorizedOnResource()
         databaseManager.add(campaign)
         return ResponseEntity(HttpStatus.OK)

@@ -13,7 +13,7 @@ class MongoDBManager {
     private val datastore: Datastore
 
     init {
-        val client = MongoClient(MongoClientURI("mongodb+srv://prodrom:prodrom@campaigns-service-qaapp.mongodb.net/"))
+        val client = MongoClient(MongoClientURI("mongodb://prodrom:prodrom@campaigns-service-qaapp.mongodb.net/"))
         val morphia = Morphia()
         morphia.mapPackage("campaign.models")
 

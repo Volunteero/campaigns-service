@@ -8,9 +8,7 @@ import okhttp3.FormBody
 
 class AuthorizationService {
 
-    private val client by lazy {
-        OkHttpClient()
-    }
+    private val client = OkHttpClient()
 
     fun isUserAuthorizedOnResource(accessToken: String, resource: String, action: String) {
         val formBody = FormBody.Builder()
