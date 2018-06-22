@@ -3,9 +3,14 @@ package campaign.controllers
 import campaign.AuthorizationService
 import campaign.database.MongoDBManager
 import campaign.models.Campaign
+import com.fasterxml.jackson.databind.util.JSONPObject
 import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import java.util.HashMap
+import sun.security.provider.certpath.Vertex
+
+
 
 @CrossOrigin(origins = ["https://volunteero-campaigns.herokuapp.com/"])
 @RestController
@@ -47,7 +52,9 @@ class CampaignController {
     fun createCampaign(@RequestBody campaign: Campaign, @RequestParam accessToken: String): ResponseEntity<Any>? {
         //authorization.isUserAuthorizedOnResource()
         val campaign = databaseManager.add(campaign)
-        return ResponseEntity.ok(campaign.id);
+        val map = HashMap<String, String>()
+        map.put("campaign_id", campaign.id.toString())
+        return ResponseEntity.ok(map);
     }
 
     @PatchMapping("/{id}/updateDescription")
