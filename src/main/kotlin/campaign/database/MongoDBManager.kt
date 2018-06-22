@@ -5,6 +5,7 @@ import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
 import org.bson.types.ObjectId
 import org.mongodb.morphia.Datastore
+import org.mongodb.morphia.Key
 import org.mongodb.morphia.Morphia
 import org.mongodb.morphia.query.Query
 
@@ -19,6 +20,7 @@ class MongoDBManager {
 
         datastore = morphia.createDatastore(client, "Volunteero")
         datastore.ensureIndexes()
+
     }
 
     fun getAll(): List<Campaign> = datastore.find(Campaign::class.java).asList()
@@ -33,9 +35,7 @@ class MongoDBManager {
             .equal(organizationId)
             .asList()
 
-    fun add(campaign: Campaign) {
-        datastore.save(campaign)
-    }
+    fun add(campaign: Campaign): Key<Campaign> = datastore.save(campaign)
 
     fun updateDescription(id: String, description: String) {
         val updateOperations = datastore.createUpdateOperations(Campaign::class.java)

@@ -44,10 +44,10 @@ class CampaignController {
     }
 
     @PostMapping("/")
-    fun createCampaign(@RequestBody campaign: Campaign, @RequestParam accessToken: String): ResponseEntity<Unit> {
+    fun createCampaign(@RequestBody campaign: Campaign, @RequestParam accessToken: String): ResponseEntity<Any>? {
         //authorization.isUserAuthorizedOnResource()
-        databaseManager.add(campaign)
-        return ResponseEntity(HttpStatus.OK)
+        val campaign = databaseManager.add(campaign)
+        return ResponseEntity.ok(campaign.id);
     }
 
     @PatchMapping("/{id}/updateDescription")
