@@ -6,6 +6,7 @@ import campaign.models.Campaign
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.util.JSONPObject
 import okhttp3.FormBody
+import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.springframework.http.ResponseEntity
@@ -20,6 +21,7 @@ import sun.security.provider.certpath.Vertex
 @RequestMapping("/campaigns")
 class CampaignController {
 
+    val mapperObj = ObjectMapper()
     private val client = OkHttpClient()
     private final val databaseManager by lazy {
         MongoDBManager()
@@ -60,15 +62,9 @@ class CampaignController {
         map.put("campaign_id", campaign1.id.toString())
         campaign.id = campaign1.id.toString()
 
-        val list = HashMap<String, List<Campaign>>()
-        list.put("entities", listOf(campaign))
+        val oboy = "{\"entities\":[" + mapperObj.writeValueAsString(campaign) + "]}"
+        val formBody = okhttp3.RequestBody.create(MediaType.parse("application/json; charset=utf-8"), oboy)
 
-        val mapperObj = ObjectMapper()
-        mapperObj.writeValueAsString(campaign)
-
-        val formBody = FormBody.Builder()
-                .add("entities", "["+mapperObj.writeValueAsString(campaign)+"]")
-                .build()
         val request = Request.Builder()
                 .url("https://volunteero-search.herokuapp.com/api/v1/search/create")
                 .post(formBody)
