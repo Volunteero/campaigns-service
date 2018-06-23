@@ -11,14 +11,13 @@ import java.util.HashMap
 import sun.security.provider.certpath.Vertex
 
 
-
-@CrossOrigin(origins = ["https://volunteero-campaigns.herokuapp.com/"])
+@CrossOrigin(origins = ["https://volunteero-front-end-base.herokuapp.com/", "http://localhost:4200"])
 @RestController
 @RequestMapping("/campaigns")
 class CampaignController {
 
     private final val databaseManager by lazy {
-         MongoDBManager()
+        MongoDBManager()
     }
 
     //final val authorization:AuthorizationService
