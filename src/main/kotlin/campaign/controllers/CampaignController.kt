@@ -3,7 +3,11 @@ package campaign.controllers
 import campaign.AuthorizationService
 import campaign.database.MongoDBManager
 import campaign.models.Campaign
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.util.JSONPObject
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -16,6 +20,7 @@ import sun.security.provider.certpath.Vertex
 @RequestMapping("/campaigns")
 class CampaignController {
 
+    private val client = OkHttpClient()
     private final val databaseManager by lazy {
         MongoDBManager()
     }
@@ -50,9 +55,24 @@ class CampaignController {
     @PostMapping("/")
     fun createCampaign(@RequestBody campaign: Campaign, @RequestParam accessToken: String): ResponseEntity<Any>? {
         //authorization.isUserAuthorizedOnResource()
-        val campaign = databaseManager.add(campaign)
+        val campaign1 = databaseManager.add(campaign)
         val map = HashMap<String, String>()
-        map.put("campaign_id", campaign.id.toString())
+        map.put("campaign_id", campaign1.id.toString())
+        campaign.id = campaign1.id.toString()
+
+        val list = HashMap<String, List<Campaign>>()
+        list.put("entities", listOf(campaign))
+
+        val mapperObj = ObjectMapper()
+
+        val formBody = FormBody.Builder()
+                .add("entities", mapperObj.writeValueAsString(campaign))
+                .build()
+        val request = Request.Builder()
+                .url("https://volunteero-search.herokuapp.com/api/v1/search/create")
+                .post(formBody)
+                .build()
+        client.newCall(request).execute()
         return ResponseEntity.ok(map);
     }
 
