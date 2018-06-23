@@ -5,7 +5,8 @@ import org.mongodb.morphia.annotations.Id
 
 @Entity("campaign")
 data class Campaign(var organizationId: String = "", var name: String = "",
-               var description: String = "", var influencePoints: Int = 0, var targetPoints: Int = 0, var rewardPoints: Int = 0, @Transient val type:String = "campaign") {
+                    var description: String = "", var influencePoints: Int = 0, var targetPoints: Int = 0,
+                    var rewardPoints: Int = 0, @Transient val type: String = "campaign") {
     @Id
     var id: String? = null
 }

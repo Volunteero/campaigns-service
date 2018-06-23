@@ -67,7 +67,7 @@ class CampaignController {
         mapperObj.writeValueAsString(campaign)
 
         val formBody = FormBody.Builder()
-                .add("entities", mapperObj.writeValueAsString(campaign))
+                .add("entities", "["+mapperObj.writeValueAsString(campaign)+"]")
                 .build()
         val request = Request.Builder()
                 .url("https://volunteero-search.herokuapp.com/api/v1/search/create")
